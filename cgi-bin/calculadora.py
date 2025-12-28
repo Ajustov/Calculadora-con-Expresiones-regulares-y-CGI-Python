@@ -1,35 +1,32 @@
+#!/usr/bin/env python3
 
 import cgi
 import re
-import math
 
-print("Content-Type: text/html\n")
+print("Content-Type: text/html")
+print()
 
 form = cgi.FieldStorage()
-expresion = form.getvalue("expresion", "")
+expresion = form.getfirst("expresion", "")
 
-print("<html><body>")
+print("<html>")
+print("<body>")
 print("<h2>Resultado</h2>")
 
-# Expresión regular permitida:
-# números, operadores básicos, paréntesis, punto decimal
 patron = r'^[0-9+\-*/(). ]+$'
 
 if not re.match(patron, expresion):
-    print("<p>Error: expresión no válida</p>")
+    print("<p>Error: expresion no valida</p>")
 else:
     try:
-        # Reemplazos opcionales (extensión)
-        expresion = expresion.replace("raiz", "math.sqrt")
-
         resultado = eval(expresion)
-
-        print(f"<p>Expresión: {expresion}</p>")
-        print(f"<p>Resultado: {resultado:.2f}</p>")
+        print("<p>Expresion: {}</p>".format(expresion))
+        print("<p>Resultado: {:.2f}</p>".format(resultado))
     except ZeroDivisionError:
-        print("<p>Error: división por cero</p>")
+        print("<p>Error: division por cero</p>")
     except Exception:
-        print("<p>Error al evaluar la expresión</p>")
+        print("<p>Error al evaluar la expresion</p>")
 
-print('<a href="/html/index.html">Volver</a>')
-print("</body></html>")
+print('<br><a href="/calculadora/html/index.html">Volver</a>')
+print("</body>")
+print("</html>")
